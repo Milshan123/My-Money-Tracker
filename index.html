@@ -3,171 +3,128 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b0d10">
+<meta name="theme-color" content="#111318">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.webmanifest">
-<title>My Money</title>
+<title>My Money V5</title>
 <style>
-:root{--bg:#f5f5f7;--card:#fff;--ink:#111318;--muted:#7b7f87;--line:#e7e7eb;--green:#168a52;--red:#d94343}
+:root{--bg:#f4f5f7;--card:#fff;--ink:#111318;--muted:#747983;--line:#e4e5e9;--good:#168b55;--bad:#d53d48;--accent:#111318}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif}
-.app{max-width:520px;margin:auto;min-height:100vh;padding:calc(18px + env(safe-area-inset-top)) 16px calc(92px + env(safe-area-inset-bottom))}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}h1{font-size:30px;margin:0;font-weight:800;letter-spacing:-.8px}.date{color:var(--muted);font-size:13px;margin-top:3px}
-.icon{width:42px;height:42px;border:0;border-radius:14px;background:#fff;box-shadow:0 2px 12px #0000000d;font-size:20px}
-.hero{background:#111318;color:white;border-radius:25px;padding:22px;margin-bottom:14px;box-shadow:0 10px 30px #00000018}.hero .label{color:#b9bdc6}.hero .big{font-size:36px;font-weight:800;letter-spacing:-1px;margin:7px 0 16px}.split{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mini{background:#ffffff14;border-radius:15px;padding:12px}.mini b{display:block;font-size:17px;margin-top:4px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:var(--card);border-radius:20px;padding:16px;box-shadow:0 2px 12px #00000009}.label{font-size:12px;color:var(--muted);font-weight:600}.num{font-size:22px;font-weight:800;margin-top:7px}.green{color:var(--green)}.red{color:var(--red)}
-.section{margin-top:22px}.section-title{display:flex;justify-content:space-between;align-items:center;margin:0 2px 10px}.section-title h2{font-size:18px;margin:0}.link{border:0;background:none;color:#555;font-weight:700}
-.goal{background:white;border-radius:20px;padding:16px;margin-bottom:10px}.bar{height:9px;background:#ececf0;border-radius:99px;overflow:hidden;margin:12px 0 8px}.fill{height:100%;background:#111318;width:0;border-radius:99px}
-.tx{display:flex;align-items:center;gap:10px;background:white;padding:13px 2px;border-bottom:1px solid var(--line)}.tx:first-child{border-radius:18px 18px 0 0}.tx:last-child{border-bottom:0;border-radius:0 0 18px 18px}.txicon{width:42px;height:42px;border-radius:13px;background:#f1f1f4;display:grid;place-items:center;font-size:19px}.txmain{flex:1;min-width:0}.txmain b{display:block;font-size:14px}.txmain span{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.txamt{font-weight:800;white-space:nowrap}.empty{background:white;border-radius:18px;padding:28px;text-align:center;color:var(--muted)}
-.bottom{position:fixed;left:0;right:0;bottom:0;background:#ffffffee;backdrop-filter:blur(18px);border-top:1px solid #dddde2;padding:9px 18px calc(9px + env(safe-area-inset-bottom));display:flex;justify-content:center;z-index:10}.bottom-inner{width:min(488px,100%);display:flex;justify-content:space-around;align-items:center}.nav{border:0;background:none;color:#777;font-size:11px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px}.nav.active{color:#111}.nav span{font-size:21px}.add{width:55px;height:55px;border-radius:19px;border:0;background:#111318;color:white;font-size:28px;box-shadow:0 8px 20px #0003;margin-top:-25px}
-.sheet{position:fixed;inset:0;background:#0006;display:none;align-items:flex-end;z-index:20}.sheet.open{display:flex}.sheetbox{background:#fff;width:100%;max-width:520px;margin:auto;border-radius:28px 28px 0 0;padding:20px 18px calc(24px + env(safe-area-inset-bottom));max-height:92vh;overflow:auto}.handle{width:42px;height:5px;background:#d7d7db;border-radius:99px;margin:0 auto 16px}.sheet h2{margin:0 0 16px;font-size:22px}
-form{display:grid;gap:12px}label{font-size:12px;color:#656872;font-weight:700}input,select{width:100%;border:1px solid #dedee3;background:#f8f8fa;border-radius:13px;padding:13px;margin-top:6px;font-size:16px;outline:none}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.save{border:0;background:#111318;color:#fff;border-radius:14px;padding:15px;font-size:16px;font-weight:800}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.quick button,.pill{border:0;border-radius:13px;background:#f0f0f3;padding:11px;font-weight:800}.pills{display:flex;gap:7px;overflow:auto;padding-bottom:3px}.pill.active{background:#111318;color:#fff}.danger{color:#b42323}.small{font-size:12px;color:var(--muted)}
-.page{display:none}.page.active{display:block}canvas{width:100%;height:210px}
-.lock{position:fixed;inset:0;background:#f5f5f7;z-index:100;display:none;align-items:center;justify-content:center;padding:24px}.lock.open{display:flex}.lockbox{width:min(360px,100%);text-align:center}.pin{font-size:28px;text-align:center;letter-spacing:12px}
-.toast{position:fixed;left:50%;bottom:95px;transform:translateX(-50%);background:#111318;color:#fff;padding:10px 15px;border-radius:999px;font-size:13px;display:none;z-index:120}
-@media(min-width:600px){.bottom{position:static;background:transparent;border:0;padding:0;margin-top:20px}.bottom-inner{background:#fff;border-radius:18px;padding:8px}}
+.app{max-width:600px;margin:auto;padding:calc(18px + env(safe-area-inset-top)) 16px calc(92px + env(safe-area-inset-bottom))}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}h1{margin:0;font-size:30px;letter-spacing:-1px}.small{font-size:12px;color:var(--muted)}button{font:inherit;border:0}.gear{width:42px;height:42px;border-radius:14px;background:var(--card);font-size:18px}
+.hero{background:#111318;color:#fff;border-radius:25px;padding:22px;margin-bottom:12px}.hero .small{color:#b9bdc7}.total{font-size:38px;font-weight:850;margin:5px 0 16px}.accounts{display:grid;grid-template-columns:1fr 1fr;gap:9px}.acct{background:#ffffff12;border-radius:15px;padding:11px}.acct b{display:block;margin-top:4px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.card{background:var(--card);border-radius:19px;padding:15px}.label{font-size:11px;color:var(--muted);font-weight:800}.num{font-size:21px;font-weight:850;margin-top:6px}.good{color:var(--good)}.bad{color:var(--bad)}
+.section{margin-top:20px}.title{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.title h2{font-size:18px;margin:0}.link{background:none;color:#3267d6;font-weight:800}
+.month{display:flex;justify-content:space-between;align-items:center;background:var(--card);border-radius:16px;padding:10px 12px;margin-bottom:10px}.month button{background:none;font-size:21px;color:var(--ink)}
+.chartcard{background:var(--card);border-radius:20px;padding:14px;margin-bottom:10px}canvas{width:100%;height:250px;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12px;color:var(--muted);margin-top:6px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}
+.tx{display:flex;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.tx:last-child{border:0}.ico{width:40px;height:40px;border-radius:13px;background:var(--bg);display:grid;place-items:center}.txmain{flex:1}.txmain b{display:block;font-size:14px}.txmain span{font-size:11px;color:var(--muted)}.amt{font-weight:850}.edit{background:none;font-size:16px;color:var(--muted)}
+.empty{background:var(--card);border-radius:18px;padding:25px;text-align:center;color:var(--muted)}
+.bottom{position:fixed;z-index:10;bottom:0;left:0;right:0;background:#ffffffe8;backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:8px 15px calc(8px + env(safe-area-inset-bottom))}.navs{max-width:600px;margin:auto;display:flex;justify-content:space-around;align-items:center}.nav{background:none;color:var(--muted);font-size:11px;font-weight:800;display:flex;flex-direction:column;align-items:center;gap:3px}.nav span{font-size:20px}.nav.active{color:var(--ink)}.add{width:55px;height:55px;border-radius:19px;background:#111318;color:white;font-size:28px;margin-top:-28px}
+.page{display:none}.page.active{display:block}.sheet{display:none;position:fixed;inset:0;background:#0007;z-index:50;align-items:flex-end}.sheet.open{display:flex}.box{background:var(--card);width:min(600px,100%);margin:auto;border-radius:28px 28px 0 0;padding:19px 17px calc(25px + env(safe-area-inset-bottom));max-height:92vh;overflow:auto}.handle{height:5px;width:42px;background:var(--line);border-radius:9px;margin:0 auto 15px}form{display:grid;gap:11px}label{font-size:12px;color:var(--muted);font-weight:750}input,select{display:block;width:100%;margin-top:5px;padding:12px;border:1px solid var(--line);border-radius:13px;background:var(--bg);color:var(--ink);font-size:16px}.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.save{background:#111318;color:#fff;padding:14px;border-radius:14px;font-weight:850}.pill{background:var(--bg);color:var(--ink);padding:10px 12px;border-radius:13px;font-weight:750}.danger{color:var(--bad);background:none}.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:8px}.fill{height:100%;background:#3267d6}.goal{background:var(--card);border-radius:17px;padding:14px;margin-bottom:9px}
+.lock{display:none;position:fixed;inset:0;z-index:100;background:var(--bg);align-items:center;justify-content:center;padding:25px}.lock.open{display:flex}.lockbox{text-align:center;width:min(340px,100%)}.pin{text-align:center;letter-spacing:9px;font-size:25px}
+@media(prefers-color-scheme:dark){:root{--bg:#0d0f12;--card:#17191e;--ink:#f5f6f8;--muted:#a1a6b0;--line:#2a2d34}.bottom{background:#111318e8}}
 </style>
 </head>
 <body>
-<div id="lock" class="lock"><div class="lockbox"><div style="font-size:52px">💰</div><h2>My Money</h2><p class="small">Enter your PIN to unlock</p><input id="unlockPin" class="pin" type="password" inputmode="numeric" maxlength="6" autocomplete="off" oninput="unlockTry()"><p id="lockMsg" class="small"></p></div></div>
+<div id="lock" class="lock"><div class="lockbox"><div style="font-size:48px">💰</div><h2>My Money</h2><p class="small">Enter your PIN</p><input id="unlock" class="pin" type="password" inputmode="numeric" maxlength="6"><p id="lockmsg" class="small"></p></div></div>
 
 <div class="app">
-<header><div><h1>My Money</h1><div class="date" id="today"></div></div><button class="icon" onclick="openSettings()">⚙️</button></header>
+<header><div><h1>My Money</h1><div class="small" id="today"></div></div><button class="gear" onclick="settings()">⚙️</button></header>
 
-<main id="home" class="page active">
-<section class="hero"><div class="label">TOTAL MONEY I OWN</div><div class="big" id="total">RM0.00</div><div class="split"><div class="mini"><div class="label">💳 Card</div><b id="card">RM0.00</b></div><div class="mini"><div class="label">💵 Cash</div><b id="cash">RM0.00</b></div></div></section>
-<div class="grid"><div class="card"><div class="label">THIS MONTH INCOME</div><div class="num green" id="income">RM0.00</div></div><div class="card"><div class="label">THIS MONTH SPENDING</div><div class="num red" id="spending">RM0.00</div></div></div>
-<section class="section"><div class="section-title"><h2>Savings goals</h2><button class="link" onclick="openGoals()">Manage</button></div><div id="goals"></div></section>
-<section class="section"><div class="section-title"><h2>Recent activity</h2><button class="link" onclick="showPage('tracker')">See all</button></div><div id="recent"></div></section>
-</main>
+<section id="dashboard" class="page active">
+<div class="hero"><div class="small">NET WORTH</div><div class="total" id="net">RM0.00</div><div class="accounts"><div class="acct"><div class="small">💳 Card</div><b id="card">RM0.00</b></div><div class="acct"><div class="small">💵 Cash</div><b id="cash">RM0.00</b></div></div></div>
 
-<main id="tracker" class="page">
-<div class="section-title"><h2>Transactions</h2><button class="link" onclick="clearAll()">Clear all</button></div>
-<div class="pills"><button class="pill active" data-filter="all" onclick="setFilter('all',this)">All</button><button class="pill" data-filter="Income" onclick="setFilter('Income',this)">Income</button><button class="pill" data-filter="Expense" onclick="setFilter('Expense',this)">Expenses</button><button class="pill" data-filter="Saving" onclick="setFilter('Saving',this)">Savings</button><button class="pill" data-filter="Transfer" onclick="setFilter('Transfer',this)">Transfers</button></div>
-<div class="row" style="margin:10px 0"><label>From<input id="filterFrom" type="date" onchange="render()"></label><label>To<input id="filterTo" type="date" onchange="render()"></label></div>
-<div id="allTx"></div>
-</main>
+<div class="grid"><div class="card"><div class="label">MONTHLY INCOME</div><div class="num good" id="income">RM0.00</div></div><div class="card"><div class="label">MONTHLY EXPENSES</div><div class="num bad" id="expense">RM0.00</div></div></div>
 
-<main id="stats" class="page">
-<section class="card"><h2 style="margin-top:0">Monthly overview</h2><canvas id="chart"></canvas></section>
-<section class="section grid"><div class="card"><div class="label">TOTAL SAVED</div><div class="num" id="saved">RM0.00</div></div><div class="card"><div class="label">PART-TIME INCOME</div><div class="num green" id="parttime">RM0.00</div></div></section>
-<section class="section grid"><div class="card"><div class="label">WEEKDAY RM10</div><div class="num" id="allowance">RM0.00</div><div class="small" id="allowanceDetail"></div></div><div class="card"><div class="label">WEEKEND WORK</div><div class="num green" id="weekendWork">RM0.00</div><div class="small">Part-time income on Sat/Sun</div></div></section>
-</main>
+<div class="section">
+<div class="title"><h2>Monthly overview</h2></div>
+<div class="month"><button onclick="changeMonth(-1)">‹</button><b id="monthName"></b><button onclick="changeMonth(1)">›</button></div>
+<div class="chartcard"><canvas id="pie"></canvas><div class="legend" id="pieLegend"></div></div>
+<div class="chartcard"><canvas id="flow"></canvas><div class="legend"><span>Income</span><span>Expenses</span><span>Savings</span></div></div>
 </div>
 
-<div class="bottom"><div class="bottom-inner"><button class="nav active" onclick="showPage('home',this)"><span>⌂</span>Home</button><button class="nav" onclick="showPage('tracker',this)"><span>☷</span>Tracker</button><button class="add" onclick="openTx()">＋</button><button class="nav" onclick="showPage('stats',this)"><span>◔</span>Stats</button></div></div>
+<div class="section"><div class="title"><h2>Savings goals</h2><button class="link" onclick="goals()">Manage</button></div><div id="goalsHome"></div></div>
+</section>
 
-<div class="sheet" id="txSheet" onclick="if(event.target.id==='txSheet')closeSheet()"><div class="sheetbox"><div class="handle"></div><h2 id="sheetTitle">Add transaction</h2>
-<form onsubmit="saveTx(event)">
-<div class="quick"><button type="button" onclick="preset('Income','Lunch allowance',10)">+RM10 Lunch</button><button type="button" onclick="preset('Income','Part-time work',50)">+RM50 Work</button><button type="button" onclick="preset('Saving','Savings',10)">Save RM10</button></div>
-<div class="row"><label>Type<select id="type" onchange="typeChanged()"><option>Income</option><option>Expense</option><option>Saving</option><option>Transfer</option></select></label><label>Amount (RM)<input id="amount" type="number" min=".01" step=".01" required></label></div>
-<div class="row"><label>Category<select id="category"><option>Lunch allowance</option><option>Part-time work</option><option>Food</option><option>Transport</option><option>Shopping</option><option>Entertainment</option><option>Savings</option><option>Other</option></select></label><label>Account<select id="location"><option>Card</option><option>Cash</option></select></label></div>
-<div id="transferFields" style="display:none"><label>Transfer to<select id="toLocation"><option>Cash</option><option>Card</option></select></label></div>
-<label>Date<input id="date" type="date" required></label><label>Notes<input id="notes" placeholder="Optional"></label>
-<button class="save" type="submit">Save transaction</button><button type="button" class="link danger" id="deleteBtn" style="display:none" onclick="deleteEditing()">Delete transaction</button>
-</form></div></div>
+<section id="tracker" class="page">
+<div class="title"><h2>Transactions</h2><button class="link" onclick="openTx()">＋ Add</button></div>
+<div id="transactions"></div>
+</section>
 
-<div class="sheet" id="goalSheet" onclick="if(event.target.id==='goalSheet')closeGoals()"><div class="sheetbox"><div class="handle"></div><h2>Savings goals</h2><div id="goalEditor"></div><button class="save" style="margin-top:15px;width:100%" onclick="addGoal()">＋ Add goal</button></div></div>
+<section id="stats" class="page">
+<div class="card"><div class="label">SAVINGS RATE</div><div class="num good" id="rate">0%</div><p class="small">Savings ÷ income for selected month.</p></div>
+<div class="section grid"><div class="card"><div class="label">RM10 ALLOWANCE</div><div class="num" id="allowance">RM0.00</div></div><div class="card"><div class="label">PART-TIME</div><div class="num good" id="parttime">RM0.00</div></div></div>
+<div class="section card"><h3>Top spending</h3><div id="top"></div></div>
+</section>
 
-<div class="sheet" id="settingsSheet" onclick="if(event.target.id==='settingsSheet')closeSettings()"><div class="sheetbox"><div class="handle"></div><h2>Settings & backup</h2>
-<div class="card" style="box-shadow:none;padding:0"><label>PIN lock</label><div class="row"><input id="newPin" type="password" inputmode="numeric" maxlength="6" placeholder="4–6 digits"><button class="save" onclick="setPin()">Set / change PIN</button></div><button class="link danger" style="margin-top:10px" onclick="removePin()">Remove PIN</button></div>
-<div class="section"><button class="save" style="width:100%" onclick="exportData()">💾 Export backup</button><input id="importFile" type="file" accept=".json,application/json" style="margin-top:10px" onchange="importData(event)"></div>
-<div class="section small">Backups contain your transactions, goals and settings. Your data is stored locally in this browser. Keep a backup somewhere safe.</div>
+<section id="more" class="page">
+<div class="card"><h3>Budget</h3><div id="budget"></div><button class="save" style="width:100%;margin-top:10px" onclick="addBudget()">＋ Add budget</button></div>
+<div class="section card"><h3>Recurring</h3><div id="recurring"></div><button class="save" style="width:100%;margin-top:10px" onclick="addRecurring()">＋ Add recurring</button></div>
+<div class="section card"><h3>Backup & security</h3><button class="save" style="width:100%" onclick="backup()">💾 Export backup</button><input id="restore" type="file" accept=".json" onchange="restore(event)"><button class="pill" style="width:100%;margin-top:9px" onclick="lock()">Lock now</button></div>
+</section>
+</div>
+
+<div class="bottom"><div class="navs">
+<button class="nav active" onclick="page('dashboard',this)"><span>⌂</span>Home</button>
+<button class="nav" onclick="page('tracker',this)"><span>☷</span>Tracker</button>
+<button class="add" onclick="openTx()">＋</button>
+<button class="nav" onclick="page('stats',this)"><span>◔</span>Stats</button>
+<button class="nav" onclick="page('more',this)"><span>•••</span>More</button>
 </div></div>
-<div id="toast" class="toast"></div>
+
+<div id="txSheet" class="sheet" onclick="if(event.target.id==='txSheet')closeSheet()"><div class="box"><div class="handle"></div><h2 id="txTitle">Add transaction</h2><form onsubmit="saveTx(event)">
+<div class="row"><label>Type<select id="type"><option>Income</option><option>Expense</option><option>Saving</option><option>Transfer</option></select></label><label>Amount<input id="amount" type="number" min=".01" step=".01" required></label></div>
+<div class="row"><label>Category<select id="cat"><option>Food</option><option>Transport</option><option>Shopping</option><option>Bills</option><option>Entertainment</option><option>Health</option><option>Education</option><option>Lunch allowance</option><option>Part-time work</option><option>Savings</option><option>Other</option></select></label><label>Account<select id="account"><option>Card</option><option>Cash</option><option>Bank</option><option>E-wallet</option></select></label></div>
+<label>Date<input id="txdate" type="date" required></label><label>Notes<input id="notes" placeholder="Optional"></label>
+<button class="save">Save transaction</button><button type="button" class="danger" id="del" onclick="delTx()">Delete</button></form></div></div>
+
+<div id="goalSheet" class="sheet" onclick="if(event.target.id==='goalSheet')closeGoals()"><div class="box"><div class="handle"></div><h2>Savings goals</h2><div id="goalEditor"></div><button class="save" style="width:100%" onclick="addGoal()">＋ Add goal</button></div></div>
+
+<div id="settingsSheet" class="sheet" onclick="if(event.target.id==='settingsSheet')closeSettings()"><div class="box"><div class="handle"></div><h2>Settings</h2><p class="small">Set a 4–6 digit local PIN. This is a convenience lock, not banking-grade encryption.</p><input id="newpin" type="password" inputmode="numeric" maxlength="6" placeholder="New PIN"><button class="save" style="width:100%;margin-top:9px" onclick="setPin()">Set PIN</button><button class="danger" style="width:100%;margin-top:8px" onclick="removePin()">Remove PIN</button><div class="section"><button class="save" style="width:100%" onclick="backup()">Export backup</button></div></div></div>
 
 <script>
-const TXKEY='iphoneMoneyTx', GOALSKEY='iphoneMoneyGoals', PINKEY='iphoneMoneyPin', OLDGOAL='iphoneMoneyGoal';
-let tx=JSON.parse(localStorage.getItem(TXKEY)||'[]');
-let goals=JSON.parse(localStorage.getItem(GOALSKEY)||'[]');
-if(!goals.length){let old=Number(localStorage.getItem(OLDGOAL)||0);if(old)goals=[{id:Date.now(),name:'Savings goal',target:old,saved:0}];}
-let editingId=null, filter='all';
-const $=id=>document.getElementById(id), money=n=>'RM'+Number(n||0).toFixed(2);
-const todayISO=()=>new Date().toISOString().slice(0,10);
-$('today').textContent=new Intl.DateTimeFormat('en-MY',{weekday:'long',day:'numeric',month:'long'}).format(new Date());
-$('date').value=todayISO();
-
-function persist(){localStorage.setItem(TXKEY,JSON.stringify(tx));localStorage.setItem(GOALSKEY,JSON.stringify(goals));render()}
-function toast(s){let t=$('toast');t.textContent=s;t.style.display='block';setTimeout(()=>t.style.display='none',1800)}
-function openTx(id=null){
- editingId=id; $('sheetTitle').textContent=id?'Edit transaction':'Add transaction'; $('deleteBtn').style.display=id?'block':'none';
- if(id){let x=tx.find(v=>v.id===id);if(!x)return;$('type').value=x.type;$('amount').value=x.amount;$('category').value=x.category;$('location').value=x.location;$('toLocation').value=x.toLocation||'Cash';$('date').value=x.date;$('notes').value=x.notes||''}
- else {$('type').value='Income';$('amount').value='';$('category').value='Lunch allowance';$('location').value='Card';$('date').value=todayISO();$('notes').value=''}
- typeChanged();$('txSheet').classList.add('open')
-}
-function closeSheet(){$('txSheet').classList.remove('open');editingId=null}
-function typeChanged(){$('transferFields').style.display=$('type').value==='Transfer'?'block':'none'}
-function preset(t,c,a){$('type').value=t;$('category').value=c;$('amount').value=a;typeChanged()}
-function saveTx(e){
- e.preventDefault();
- let type=$('type').value, x={id:editingId||Date.now(),date:$('date').value,type,category:$('category').value,amount:+$('amount').value,location:$('location').value,toLocation:$('toLocation').value,notes:$('notes').value};
- if(editingId)tx=tx.map(v=>v.id===editingId?x:v);else tx.push(x);closeSheet();persist();toast(editingId?'Transaction updated':'Transaction saved')
-}
-function deleteEditing(){if(editingId&&confirm('Delete this transaction?')){tx=tx.filter(x=>x.id!==editingId);closeSheet();persist();toast('Deleted')}}
-function clearAll(){if(confirm('Delete all transactions? This cannot be undone unless you have a backup.')){tx=[];persist()}}
-function icon(x){return x.type==='Income'?'↑':x.type==='Expense'?'↓':x.type==='Saving'?'♡':'↔'}
-function txHtml(x){
- let cls=x.type==='Income'?'green':x.type==='Expense'?'red':'';
- let sign=x.type==='Expense'?'−':x.type==='Transfer'?'↔':'+';
- let detail=x.type==='Transfer'?`${x.location} → ${x.toLocation}`:`${x.date}${x.notes?' · '+x.notes:''}`;
- return `<div class="tx"><div class="txicon">${icon(x)}</div><div class="txmain"><b>${x.category}</b><span>${detail}</span></div><div class="txamt ${cls}">${sign}${money(x.amount)}</div><button onclick="openTx(${x.id})" style="border:0;background:none;font-size:17px">✎</button></div>`
-}
-function setFilter(f,btn){filter=f;document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));btn.classList.add('active');render()}
-function isInRange(x){let a=$('filterFrom').value,b=$('filterTo').value;return (!a||x.date>=a)&&(!b||x.date<=b)}
-function render(){
- let now=new Date(), ym=now.toISOString().slice(0,7), month=tx.filter(x=>x.date.slice(0,7)===ym);
- let income=month.filter(x=>x.type==='Income').reduce((s,x)=>s+x.amount,0), spending=month.filter(x=>x.type==='Expense').reduce((s,x)=>s+x.amount,0);
- let saved=tx.filter(x=>x.type==='Saving').reduce((s,x)=>s+x.amount,0);
- let parttime=month.filter(x=>x.type==='Income'&&x.category==='Part-time work').reduce((s,x)=>s+x.amount,0);
- let weekday=month.filter(x=>x.type==='Income'&&x.category==='Lunch allowance').reduce((s,x)=>s+x.amount,0);
- let weekendWork=month.filter(x=>x.type==='Income'&&x.category==='Part-time work'&&[0,6].includes(new Date(x.date+'T12:00:00').getDay())).reduce((s,x)=>s+x.amount,0);
- let card=0,cash=0;
- tx.forEach(x=>{
-   if(x.type==='Transfer'){if(x.location==='Card'){card-=x.amount;cash+=x.amount}else{cash-=x.amount;card+=x.amount};return}
-   let d=x.type==='Expense'?-x.amount:x.type==='Income'?x.amount:0;
-   if(x.location==='Card')card+=d;else cash+=d;
- });
- $('total').textContent=money(card+cash);$('card').textContent=money(card);$('cash').textContent=money(cash);
- $('income').textContent=money(income);$('spending').textContent=money(spending);$('saved').textContent=money(saved);$('parttime').textContent=money(parttime);
- $('allowance').textContent=money(weekday);$('allowanceDetail').textContent=`${month.filter(x=>x.type==='Income'&&x.category==='Lunch allowance').length} allowance entries`;
- $('weekendWork').textContent=money(weekendWork);
- renderGoals(saved);
- let sorted=[...tx].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);
- $('recent').innerHTML=sorted.length?'<div class="card" style="padding:0 14px">'+sorted.slice(0,5).map(txHtml).join('')+'</div>':'<div class="empty">No transactions yet.<br>Tap ＋ to add your first one.</div>';
- let shown=sorted.filter(x=>(filter==='all'||x.type===filter)&&isInRange(x));
- $('allTx').innerHTML=shown.length?'<div class="card" style="padding:0 14px">'+shown.map(txHtml).join('')+'</div>':'<div class="empty">No matching transactions.</div>';
- draw(income,spending,saved)
-}
-function renderGoals(saved){
- if(!goals.length){$('goals').innerHTML='<div class="goal"><div class="label">No goals yet</div><button class="link" onclick="openGoals()">Add a savings goal</button></div>';return}
- $('goals').innerHTML=goals.map(g=>{let pct=Math.min(100,(g.saved||0)/Math.max(g.target,1)*100);return `<div class="goal"><div style="display:flex;justify-content:space-between"><b>${escapeHtml(g.name)}</b><span>${money(g.saved||0)} / ${money(g.target)}</span></div><div class="bar"><div class="fill" style="width:${pct}%"></div></div><div class="small">${pct.toFixed(0)}% complete</div></div>`}).join('')
-}
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-function draw(a,b,c){
- let cv=$('chart'),ctx=cv.getContext('2d'),dpr=window.devicePixelRatio||1,w=cv.clientWidth*dpr,h=210*dpr;cv.width=w;cv.height=h;ctx.clearRect(0,0,w,h);
- let vals=[a,b,c],labels=['Income','Spending','Saved'],max=Math.max(...vals,1),barW=Math.min(62*dpr,w/5);
- ctx.textAlign='center';vals.forEach((v,i)=>{let x=(i+.5)*w/3,bh=v/max*105*dpr;ctx.fillStyle='#111318';ctx.fillRect(x-barW/2,h-55*dpr-bh,barW,bh);ctx.fillStyle='#555';ctx.font=`${12*dpr}px -apple-system`;ctx.fillText(labels[i],x,h-15*dpr);ctx.fillStyle='#111318';ctx.font=`${12*dpr}px -apple-system`;ctx.fillText(money(v),x,h-68*dpr-bh)})
-}
-function showPage(id,btn){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');if(id==='stats')setTimeout(render,0)}
-function openGoals(){renderGoalEditor();$('goalSheet').classList.add('open')}
+const KEY='myMoneyV5Final', PIN='myMoneyV5Pin';
+let S=JSON.parse(localStorage.getItem(KEY)||'null')||{tx:[],goals:[],budgets:[],recurring:[]}, edit=null;
+let viewMonth=new Date(); viewMonth.setDate(1);
+const $=x=>document.getElementById(x), money=n=>'RM'+(+n||0).toFixed(2), iso=d=>d.toISOString().slice(0,10);
+function persist(){localStorage.setItem(KEY,JSON.stringify(S));render()}
+function page(id,b){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');render()}
+function monthKey(){return viewMonth.toISOString().slice(0,7)}
+function changeMonth(n){viewMonth.setMonth(viewMonth.getMonth()+n);render()}
+function selected(){return S.tx.filter(x=>x.date.slice(0,7)===monthKey())}
+function balances(){let b={Card:0,Cash:0,Bank:0,'E-wallet':0};S.tx.forEach(x=>{if(x.type==='Transfer'){b[x.account]=(b[x.account]||0)-x.amount;b[x.to]=(b[x.to]||0)+x.amount}else if(x.type==='Income')b[x.account]+=x.amount;else if(x.type==='Expense')b[x.account]-=x.amount});return b}
+function render(){let m=selected(),inc=sum(m,'Income'),exp=sum(m,'Expense'),sav=sum(m,'Saving'),b=balances(),net=Object.values(b).reduce((a,v)=>a+v,0);$('net').textContent=money(net);$('card').textContent=money(b.Card);$('cash').textContent=money(b.Cash);$('income').textContent=money(inc);$('expense').textContent=money(exp);$('monthName').textContent=new Intl.DateTimeFormat('en-MY',{month:'long',year:'numeric'}).format(viewMonth);drawPie(m);drawFlow(inc,exp,sav);renderTx();renderGoals();renderStats(m,inc,sav);renderBudget(m);renderRecurring()}
+function sum(a,t){return a.filter(x=>x.type===t).reduce((s,x)=>s+x.amount,0)}
+function drawPie(m){let map={};m.filter(x=>x.type==='Expense').forEach(x=>map[x.category]=(map[x.category]||0)+x.amount);let data=Object.entries(map);let c=$('pie'),ctx=c.getContext('2d'),d=devicePixelRatio||1,w=c.clientWidth*d,h=250*d;c.width=w;c.height=h;ctx.clearRect(0,0,w,h);let total=data.reduce((s,x)=>s+x[1],0),cx=w/2,cy=h/2,r=Math.min(w,h)*.32,start=-Math.PI/2;let colors=['#111318','#3267d6','#168b55','#d53d48','#e09a32','#8b5cf6','#0ea5a5','#777'];if(!total){ctx.fillStyle='#dfe1e6';ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fill();ctx.fillStyle='#747983';ctx.textAlign='center';ctx.font=`bold ${14*d}px Arial`;ctx.fillText('No expenses',cx,cy+5*d)}else{data.forEach(([name,val],i)=>{let ang=val/total*Math.PI*2;ctx.fillStyle=colors[i%colors.length];ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,start,start+ang);ctx.closePath();ctx.fill();start+=ang});ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--card');ctx.beginPath();ctx.arc(cx,cy,r*.58,0,Math.PI*2);ctx.fill();ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--ink');ctx.textAlign='center';ctx.font=`bold ${20*d}px Arial`;ctx.fillText(money(total),cx,cy+3*d);ctx.font=`${11*d}px Arial`;ctx.fillStyle='#747983';ctx.fillText('spent',cx,cy+21*d)}$('pieLegend').innerHTML=data.map(([n,v],i)=>`<span><i class="dot" style="background:${colors[i%colors.length]}"></i>${n} ${Math.round(v/total*100)}%</span>`).join('')}
+function drawFlow(inc,exp,sav){let c=$('flow'),ctx=c.getContext('2d'),d=devicePixelRatio||1,w=c.clientWidth*d,h=250*d;c.width=w;c.height=h;ctx.clearRect(0,0,w,h);let vals=[inc,exp,sav],labs=['Income','Expenses','Savings'],max=Math.max(...vals,1),bw=Math.min(65*d,w/5);vals.forEach((v,i)=>{let x=(i+.5)*w/3,bh=v/max*145*d;ctx.fillStyle=['#168b55','#d53d48','#3267d6'][i];ctx.fillRect(x-bw/2,h-48*d-bh,bw,bh);ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--ink');ctx.textAlign='center';ctx.font=`bold ${12*d}px Arial`;ctx.fillText(money(v),x,h-58*d-bh);ctx.font=`${12*d}px Arial`;ctx.fillText(labs[i],x,h-20*d)})}
+function renderTx(){let arr=[...S.tx].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);$('transactions').innerHTML=arr.length?'<div class="card">'+arr.map(x=>`<div class="tx"><div class="ico">${x.type==='Income'?'↑':x.type==='Expense'?'↓':x.type==='Saving'?'♡':'↔'}</div><div class="txmain"><b>${esc(x.category)}</b><span>${x.date} · ${x.account}${x.to?' → '+x.to:''}${x.notes?' · '+esc(x.notes):''}</span></div><div class="amt ${x.type==='Expense'?'bad':'good'}">${x.type==='Expense'?'−':'+'}${money(x.amount)}</div><button class="edit" onclick="openTx(${x.id})">✎</button></div>`).join('')+'</div>':'<div class="empty">No transactions yet.<br>Tap ＋ to add one.</div>'}
+function renderGoals(){if(!S.goals.length){$('goalsHome').innerHTML='<div class="empty">No savings goals yet.</div>';return}$('goalsHome').innerHTML=S.goals.map(g=>{let saved=(g.saved||0)+S.tx.filter(x=>x.type==='Saving'&&x.goal===g.id).reduce((s,x)=>s+x.amount,0),p=Math.min(100,saved/g.target*100);return `<div class="goal"><div style="display:flex;justify-content:space-between"><b>${esc(g.name)}</b><span>${money(saved)} / ${money(g.target)}</span></div><div class="bar"><div class="fill" style="width:${p}%"></div></div><div class="small">${p.toFixed(0)}% complete</div></div>`}).join('')}
+function renderStats(m,inc,sav){$('rate').textContent=(inc?Math.round(sav/inc*100):0)+'%';$('allowance').textContent=money(sum(m.filter(x=>x.category==='Lunch allowance'),'Income'));$('parttime').textContent=money(sum(m.filter(x=>x.category==='Part-time work'),'Income'));let map={};m.filter(x=>x.type==='Expense').forEach(x=>map[x.category]=(map[x.category]||0)+x.amount);$('top').innerHTML=Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,6).map(x=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line)"><span>${esc(x[0])}</span><b class="bad">${money(x[1])}</b></div>`).join('')||'<span class="small">No spending.</span>'}
+function renderBudget(m){$('budget').innerHTML=S.budgets.length?S.budgets.map(b=>{let u=m.filter(x=>x.type==='Expense'&&x.category===b.category).reduce((s,x)=>s+x.amount,0),p=Math.min(100,u/b.amount*100);return `<div style="margin:10px 0"><div style="display:flex;justify-content:space-between"><b>${esc(b.category)}</b><span>${money(u)} / ${money(b.amount)}</span></div><div class="bar"><div class="fill" style="width:${p}%"></div></div></div>`}).join(''):'<span class="small">No budgets set.</span>'}
+function renderRecurring(){$('recurring').innerHTML=S.recurring.length?S.recurring.map(r=>`<div style="padding:9px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between"><span><b>${esc(r.name)}</b><br><span class="small">${r.type} · monthly day ${r.day}</span></span><b>${money(r.amount)}</b></div>`).join(''):'<span class="small">No recurring items.</span>'}
+function openTx(id=null){edit=id; $('txTitle').textContent=id?'Edit transaction':'Add transaction';$('del').style.display=id?'block':'none';if(id){let x=S.tx.find(v=>v.id===id);$('type').value=x.type;$('amount').value=x.amount;$('cat').value=x.category;$('account').value=x.account;$('txdate').value=x.date;$('notes').value=x.notes||''}else{$('type').value='Income';$('amount').value='';$('cat').value='Food';$('account').value='Card';$('txdate').value=iso(new Date());$('notes').value=''}$('txSheet').classList.add('open')}
+function closeSheet(){$('txSheet').classList.remove('open');edit=null}
+function saveTx(e){e.preventDefault();let x={id:edit||Date.now(),type:$('type').value,amount:+$('amount').value,category:$('cat').value,account:$('account').value,date:$('txdate').value,notes:$('notes').value};if(x.type==='Transfer'){x.to=prompt('Transfer to account: Card, Cash, Bank or E-wallet','Cash')||'Cash'}if(edit)S.tx=S.tx.map(v=>v.id===edit?x:v);else S.tx.push(x);closeSheet();persist()}
+function delTx(){if(edit&&confirm('Delete this transaction?')){S.tx=S.tx.filter(x=>x.id!==edit);closeSheet();persist()}}
+function goals(){let h=S.goals.map(g=>`<div class="goal"><b>${esc(g.name)}</b><p class="small">Target ${money(g.target)} · Starting saved ${money(g.saved||0)}</p><button class="danger" onclick="deleteGoal(${g.id})">Delete</button></div>`).join('');$('goalEditor').innerHTML=h||'<div class="empty">No goals.</div>';$('goalSheet').classList.add('open')}
 function closeGoals(){$('goalSheet').classList.remove('open')}
-function renderGoalEditor(){$('goalEditor').innerHTML=goals.length?goals.map(g=>`<div class="card" style="margin-bottom:10px;box-shadow:none"><label>Name<input id="gn${g.id}" value="${escapeHtml(g.name)}"></label><label>Target (RM)<input id="gt${g.id}" type="number" min="0" step=".01" value="${g.target}"></label><label>Already saved (RM)<input id="gs${g.id}" type="number" min="0" step=".01" value="${g.saved||0}"></label><button class="save" style="width:100%;margin-top:10px" onclick="updateGoal(${g.id})">Save</button><button class="link danger" style="width:100%;margin-top:6px" onclick="deleteGoal(${g.id})">Delete</button></div>`).join(''):'<div class="empty">No savings goals yet.</div>'}
-function addGoal(){let name=prompt('Goal name','New goal');if(!name)return;let target=Number(prompt('Target amount (RM)','1000'));if(!target)return;goals.push({id:Date.now(),name,target,saved:0});persist();renderGoalEditor();toast('Goal added')}
-function updateGoal(id){let g=goals.find(x=>x.id===id);if(!g)return;g.name=$('gn'+id).value||'Savings goal';g.target=+$('gt'+id).value||0;g.saved=+$('gs'+id).value||0;persist();renderGoalEditor();toast('Goal updated')}
-function deleteGoal(id){if(confirm('Delete this goal?')){goals=goals.filter(g=>g.id!==id);persist();renderGoalEditor()}}
-function openSettings(){$('settingsSheet').classList.add('open')}
+function addGoal(){let n=prompt('Goal name','Emergency fund');if(!n)return;let t=+prompt('Target amount (RM)','1000');if(!t)return;S.goals.push({id:Date.now(),name:n,target:t,saved:0});persist();goals()}
+function deleteGoal(id){S.goals=S.goals.filter(x=>x.id!==id);persist();goals()}
+function addBudget(){let c=prompt('Category','Food');if(!c)return;let a=+prompt('Monthly budget (RM)','300');if(!a)return;S.budgets.push({category:c,amount:a});persist()}
+function addRecurring(){let n=prompt('Name','Phone bill');if(!n)return;let a=+prompt('Amount (RM)','50');if(!a)return;S.recurring.push({name:n,amount:a,type:'Expense',day:1});persist()}
+function settings(){$('settingsSheet').classList.add('open')}
 function closeSettings(){$('settingsSheet').classList.remove('open')}
-function setPin(){let p=$('newPin').value.trim();if(!/^\d{4,6}$/.test(p)){toast('PIN must be 4–6 digits');return}localStorage.setItem(PINKEY,p);$('newPin').value='';toast('PIN enabled')}
-function removePin(){localStorage.removeItem(PINKEY);toast('PIN removed')}
-function exportData(){
- let data={version:2,exportedAt:new Date().toISOString(),transactions:tx,goals,settings:{pinEnabled:!!localStorage.getItem(PINKEY)}};
- let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='my-money-backup-'+todayISO()+'.json';a.click();URL.revokeObjectURL(a.href);toast('Backup exported')
-}
-function importData(e){
- let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!Array.isArray(d.transactions)||!Array.isArray(d.goals))throw Error();if(confirm('Replace current data with this backup?')){tx=d.transactions;goals=d.goals;persist();toast('Backup imported')}}catch(_){alert('That backup file is not valid My Money data.')}};r.readAsText(f);e.target.value=''
-}
-function unlockTry(){let p=$('unlockPin').value;if(p.length>=4){if(p===localStorage.getItem(PINKEY)){$('lock').classList.remove('open');$('unlockPin').value='';$('lockMsg').textContent=''}else{$('lockMsg').textContent='Incorrect PIN'}}}
-window.addEventListener('load',()=>{if(localStorage.getItem(PINKEY))$('lock').classList.add('open')});
-render();
+function setPin(){let p=$('newpin').value;if(!/^\d{4,6}$/.test(p)){alert('PIN must be 4–6 digits');return}localStorage.setItem(PIN,p);$('newpin').value='';alert('PIN set')}
+function removePin(){localStorage.removeItem(PIN);alert('PIN removed')}
+function lock(){if(localStorage.getItem(PIN)){$('lock').classList.add('open');$('unlock').focus()}else alert('Set a PIN first')}
+$('unlock').addEventListener('input',e=>{if(e.target.value===localStorage.getItem(PIN)){$('lock').classList.remove('open');e.target.value=''}});
+function backup(){let blob=new Blob([JSON.stringify({version:5,exportedAt:new Date().toISOString(),data:S},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='my-money-v5-backup.json';a.click()}
+function restore(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d.data.tx)throw 0;if(confirm('Replace current data with this backup?')){S=d.data;persist()}}catch{alert('Invalid backup file')}};r.readAsText(f)}
+function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+$('today').textContent=new Intl.DateTimeFormat('en-MY',{weekday:'long',day:'numeric',month:'long'}).format(new Date());
+render();if(localStorage.getItem(PIN))$('lock').classList.add('open');
 </script>
-</body></html>
+</body>
+</html>
