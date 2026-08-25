@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0d10">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>My Money</title>
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+:root{--bg:#f5f5f7;--card:#fff;--ink:#111318;--muted:#7b7f87;--line:#e7e7eb;--accent:#111318;--green:#168a52;--red:#d94343}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif}
+.app{max-width:520px;margin:auto;min-height:100vh;padding:calc(18px + env(safe-area-inset-top)) 16px calc(88px + env(safe-area-inset-bottom))}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}h1{font-size:30px;margin:0;font-weight:800;letter-spacing:-.8px}.date{color:var(--muted);font-size:13px;margin-top:3px}
+.icon{width:42px;height:42px;border:0;border-radius:14px;background:#fff;box-shadow:0 2px 12px #0000000d;font-size:20px}
+.hero{background:#111318;color:white;border-radius:25px;padding:22px;margin-bottom:14px;box-shadow:0 10px 30px #00000018}.hero .label{color:#b9bdc6}.hero .big{font-size:36px;font-weight:800;letter-spacing:-1px;margin:7px 0 16px}.split{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mini{background:#ffffff14;border-radius:15px;padding:12px}.mini b{display:block;font-size:17px;margin-top:4px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:var(--card);border-radius:20px;padding:16px;box-shadow:0 2px 12px #00000009}.label{font-size:12px;color:var(--muted);font-weight:600}.num{font-size:22px;font-weight:800;margin-top:7px}.green{color:var(--green)}.red{color:var(--red)}
+.section{margin-top:22px}.section-title{display:flex;justify-content:space-between;align-items:center;margin:0 2px 10px}.section-title h2{font-size:18px;margin:0}.link{border:0;background:none;color:#555;font-weight:700}
+.goal{background:white;border-radius:20px;padding:16px}.bar{height:9px;background:#ececf0;border-radius:99px;overflow:hidden;margin:12px 0 8px}.fill{height:100%;background:#111318;width:0;border-radius:99px}
+.tx{display:flex;align-items:center;gap:12px;background:white;padding:13px 2px;border-bottom:1px solid var(--line)}.tx:first-child{border-radius:18px 18px 0 0}.tx:last-child{border-bottom:0;border-radius:0 0 18px 18px}.txicon{width:42px;height:42px;border-radius:13px;background:#f1f1f4;display:grid;place-items:center;font-size:19px}.txmain{flex:1}.txmain b{display:block;font-size:14px}.txmain span{font-size:12px;color:var(--muted)}.txamt{font-weight:800}.empty{background:white;border-radius:18px;padding:28px;text-align:center;color:var(--muted)}
+.bottom{position:fixed;left:0;right:0;bottom:0;background:#ffffffee;backdrop-filter:blur(18px);border-top:1px solid #dddde2;padding:9px 18px calc(9px + env(safe-area-inset-bottom));display:flex;justify-content:center;z-index:10}.bottom-inner{width:min(488px,100%);display:flex;justify-content:space-around;align-items:center}.nav{border:0;background:none;color:#777;font-size:11px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px}.nav.active{color:#111}.nav span{font-size:21px}.add{width:55px;height:55px;border-radius:19px;border:0;background:#111318;color:white;font-size:28px;box-shadow:0 8px 20px #0003;margin-top:-25px}
+.sheet{position:fixed;inset:0;background:#0006;display:none;align-items:flex-end;z-index:20}.sheet.open{display:flex}.sheetbox{background:#fff;width:100%;max-width:520px;margin:auto;border-radius:28px 28px 0 0;padding:20px 18px calc(24px + env(safe-area-inset-bottom));max-height:92vh;overflow:auto}.handle{width:42px;height:5px;background:#d7d7db;border-radius:99px;margin:0 auto 16px}.sheet h2{margin:0 0 16px;font-size:22px}
+form{display:grid;gap:12px}label{font-size:12px;color:#656872;font-weight:700}input,select{width:100%;border:1px solid #dedee3;background:#f8f8fa;border-radius:13px;padding:13px;margin-top:6px;font-size:16px;outline:none}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.save{border:0;background:#111318;color:#fff;border-radius:14px;padding:15px;font-size:16px;font-weight:800}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.quick button{border:0;border-radius:13px;background:#f0f0f3;padding:11px;font-weight:800}
+.page{display:none}.page.active{display:block}
+canvas{width:100%;height:190px}
+@media(min-width:600px){.bottom{position:static;background:transparent;border:0;padding:0;margin-top:20px}.bottom-inner{background:#fff;border-radius:18px;padding:8px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div><h1>My Money</h1><div class="date" id="today"></div></div><button class="icon" onclick="openSheet()">⚙️</button></header>
+
+<main id="home" class="page active">
+<section class="hero"><div class="label">TOTAL MONEY I OWN</div><div class="big" id="total">RM0.00</div><div class="split"><div class="mini"><div class="label">💳 Card</div><b id="card">RM0.00</b></div><div class="mini"><div class="label">💵 Cash</div><b id="cash">RM0.00</b></div></div></section>
+<div class="grid"><div class="card"><div class="label">THIS MONTH INCOME</div><div class="num green" id="income">RM0.00</div></div><div class="card"><div class="label">THIS MONTH SPENDING</div><div class="num red" id="spending">RM0.00</div></div></div>
+<section class="section"><div class="section-title"><h2>Savings goal</h2><button class="link" onclick="openGoal()">Edit</button></div><div class="goal"><div class="label" id="goalLabel">Set your goal</div><div class="bar"><div class="fill" id="fill"></div></div><div class="label" id="goalProgress">No goal yet</div></div></section>
+<section class="section"><div class="section-title"><h2>Recent activity</h2><button class="link" onclick="showPage('tracker')">See all</button></div><div id="recent"></div></section>
+</main>
+
+<main id="tracker" class="page">
+<div class="section-title"><h2>All transactions</h2><button class="link" onclick="clearAll()">Clear</button></div>
+<div id="allTx"></div>
+</main>
+
+<main id="stats" class="page">
+<section class="card"><h2 style="margin-top:0">This month</h2><canvas id="chart"></canvas></section>
+<section class="section grid"><div class="card"><div class="label">TOTAL SAVED</div><div class="num" id="saved">RM0.00</div></div><div class="card"><div class="label">PART-TIME INCOME</div><div class="num green" id="parttime">RM0.00</div></div></section>
+</main>
+</div>
+
+<div class="bottom"><div class="bottom-inner"><button class="nav active" onclick="showPage('home',this)"><span>⌂</span>Home</button><button class="nav" onclick="showPage('tracker',this)"><span>☷</span>Tracker</button><button class="add" onclick="openSheet()">＋</button><button class="nav" onclick="showPage('stats',this)"><span>◔</span>Stats</button></div></div>
+
+<div class="sheet" id="sheet" onclick="if(event.target.id==='sheet')closeSheet()"><div class="sheetbox"><div class="handle"></div><h2 id="sheetTitle">Add transaction</h2>
+<form onsubmit="addTx(event)">
+<div class="quick"><button type="button" onclick="preset('Income','Lunch allowance',10)">+RM10 Lunch</button><button type="button" onclick="preset('Income','Part-time work',50)">+RM50 Work</button><button type="button" onclick="preset('Saving','Savings',10)">Save RM10</button></div>
+<div class="row"><label>Type<select id="type"><option>Income</option><option>Expense</option><option>Saving</option><option>Transfer</option></select></label><label>Amount (RM)<input id="amount" type="number" min=".01" step=".01" required></label></div>
+<div class="row"><label>Category<select id="category"><option>Lunch allowance</option><option>Part-time work</option><option>Food</option><option>Transport</option><option>Shopping</option><option>Entertainment</option><option>Savings</option><option>Other</option></select></label><label>Location<select id="location"><option>Card</option><option>Cash</option></select></label></div>
+<label>Date<input id="date" type="date" required></label><label>Notes<input id="notes" placeholder="Optional"></label>
+<button class="save" type="submit">Save transaction</button></form></div></div>
+
+<div class="sheet" id="goalSheet" onclick="if(event.target.id==='goalSheet')closeGoal()"><div class="sheetbox"><div class="handle"></div><h2>Savings goal</h2><label>Goal amount (RM)<input id="goalInput" type="number" min="0" step=".01"></label><button class="save" style="margin-top:15px;width:100%" onclick="saveGoal()">Save goal</button></div></div>
+
+<script>
+let tx=JSON.parse(localStorage.getItem('iphoneMoneyTx')||'[]'), goal=Number(localStorage.getItem('iphoneMoneyGoal')||0);
+const $=id=>document.getElementById(id), money=n=>'RM'+Number(n).toFixed(2);
+$('today').textContent=new Intl.DateTimeFormat('en-MY',{weekday:'long',day:'numeric',month:'long'}).format(new Date());
+$('date').value=new Date().toISOString().slice(0,10);
+function persist(){localStorage.setItem('iphoneMoneyTx',JSON.stringify(tx));render()}
+function addTx(e){e.preventDefault();tx.push({id:Date.now(),date:$('date').value,type:$('type').value,category:$('category').value,amount:+$('amount').value,location:$('location').value,notes:$('notes').value});e.target.reset();$('date').value=new Date().toISOString().slice(0,10);closeSheet();persist()}
+function preset(t,c,a){$('type').value=t;$('category').value=c;$('amount').value=a}
+function openSheet(){ $('sheet').classList.add('open') } function closeSheet(){ $('sheet').classList.remove('open') }
+function openGoal(){$('goalInput').value=goal||'';$('goalSheet').classList.add('open')}function closeGoal(){$('goalSheet').classList.remove('open')}
+function saveGoal(){goal=+$('goalInput').value||0;localStorage.setItem('iphoneMoneyGoal',goal);closeGoal();render()}
+function clearAll(){if(confirm('Delete all transactions?')){tx=[];persist()}}
+function del(id){tx=tx.filter(x=>x.id!==id);persist()}
+function icon(x){return x.type==='Income'?'↑':x.type==='Expense'?'↓':x.type==='Saving'?'♡':'↔'}
+function txHtml(x){let cls=x.type==='Income'?'green':x.type==='Expense'?'red':'';return `<div class="tx"><div class="txicon">${icon(x)}</div><div class="txmain"><b>${x.category}</b><span>${x.date}${x.notes?' · '+x.notes:''}</span></div><div class="txamt ${cls}">${x.type==='Expense'?'−':'+'}${money(x.amount)}</div><button onclick="del(${x.id})" style="border:0;background:none">×</button></div>`}
+function render(){
+ let now=new Date(), ym=now.toISOString().slice(0,7), month=tx.filter(x=>x.date.slice(0,7)===ym);
+ let income=month.filter(x=>x.type==='Income').reduce((s,x)=>s+x.amount,0), spending=month.filter(x=>x.type==='Expense').reduce((s,x)=>s+x.amount,0), saved=tx.filter(x=>x.type==='Saving').reduce((s,x)=>s+x.amount,0), parttime=month.filter(x=>x.type==='Income'&&x.category==='Part-time work').reduce((s,x)=>s+x.amount,0);
+ let totalIn=tx.filter(x=>x.type==='Income').reduce((s,x)=>s+x.amount,0), totalOut=tx.filter(x=>x.type==='Expense').reduce((s,x)=>s+x.amount,0);
+ let card=0,cash=0;tx.forEach(x=>{if(x.type==='Transfer')return;let d=x.type==='Expense'?-x.amount:x.type==='Income'?x.amount:0;if(x.location==='Card')card+=d;else cash+=d});
+ $('total').textContent=money(totalIn-totalOut);$('card').textContent=money(card);$('cash').textContent=money(cash);$('income').textContent=money(income);$('spending').textContent=money(spending);$('saved').textContent=money(saved);$('parttime').textContent=money(parttime);
+ let pct=goal?Math.min(100,saved/goal*100):0;$('goalLabel').textContent=goal?`Goal ${money(goal)}`:'Set your goal';$('fill').style.width=pct+'%';$('goalProgress').textContent=goal?`${money(saved)} saved · ${pct.toFixed(0)}% complete`:'Tap Edit to add a savings goal';
+ let sorted=[...tx].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);$('recent').innerHTML=sorted.length?'<div class="card" style="padding:0 14px">'+sorted.slice(0,5).map(txHtml).join('')+'</div>':'<div class="empty">No transactions yet.<br>Tap ＋ to add your first one.</div>';$('allTx').innerHTML=sorted.length?'<div class="card" style="padding:0 14px">'+sorted.map(txHtml).join('')+'</div>':'<div class="empty">No transactions yet.</div>';draw(income,spending,saved)}
+function draw(a,b,c){let cv=$('chart'),ctx=cv.getContext('2d'),w=cv.clientWidth*2,h=190*2;cv.width=w;cv.height=h;ctx.clearRect(0,0,w,h);let vals=[a,b,c],labels=['Income','Spending','Saved'],max=Math.max(...vals,1);ctx.textAlign='center';ctx.font='24px -apple-system';vals.forEach((v,i)=>{let x=(i+.5)*w/3,bh=v/max*110*2;ctx.fillStyle='#111318';ctx.fillRect(x-30,h-55-bh,60,bh);ctx.fillStyle='#555';ctx.font='22px -apple-system';ctx.fillText(labels[i],x,h-15);ctx.fillStyle='#111318';ctx.font='22px -apple-system';ctx.fillText(money(v),x,h-72-bh)})}
+function showPage(id,btn){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active')}
+render();
+</script>
+</body></html>
